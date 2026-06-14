@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Job Fit Analyzer</title>
+  <style>
+    :root {
+      --bg: #f5f6f1;
+      --card: #ffffff;
+      --ink: #1f2d2f;
+      --muted: #64706b;
+      --line: #d8ddd3;
+      --accent: #2f6b5f;
+      --accent-light: #e2f0eb;
+      --gold: #b38a35;
+      --gold-light: #f5ead1;
+      --red: #a95a46;
+      --red-light: #f4e3de;
+      --blue: #355f8c;
+      --blue-light: #e1e9f2;
+      --shadow: 0 12px 30px rgba(26, 42, 44, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    header {
+      background: var(--ink);
+      color: white;
+      padding: 52px 24px;
+    }
+
+    .wrap {
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #c9aa62;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+
+    h1 {
+      font-size: clamp(32px, 5vw, 56px);
+      line-height: 1.05;
+      margin: 0 0 12px;
+    }
+
+    .subtitle {
+      color: #d7ddd7;
+      max-width: 760px;
+      margin: 0;
+      font-size: 17px;
+    }
+
+    main {
+      padding: 32px 24px 64px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    @media (max-width: 880px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    h2 {
+      margin: 0 0 8px;
+      font-size: 22px;
+    }
+
+    h3 {
+      margin: 22px 0 10px;
+      font-size: 17px;
+    }
+
+    p {
+      margin: 0 0 14px;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 330px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      background: #fbfcf8;
+      color: var(--ink);
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(47, 107, 95, 0.12);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .secondary {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .ghost {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .report {
+      display: none;
+      margin-top: 28px;
+    }
+
+    .summary {
+      display: grid;
+      grid-template-columns: 170px 1fr;
+      gap: 18px;
+      align-items: center;
+      margin-bottom: 22px;
+    }
+
+    @media (max-width: 640px) {
+      .summary {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .score-box {
+      background: var(--ink);
+      color: white;
+      border-radius: 18px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .score-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #d5c184;
+    }
+
+    .score {
+      font-size: 56px;
+      line-height: 1;
+      margin: 8px 0;
+      font-weight: 800;
+      color: #d5c184;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 6px 11px;
+      font-size: 12px;
+      font-weight: 700;
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .section {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 24px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 880px) {
+      .columns {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .mini {
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: #fbfcf8;
+    }
+
+    .mini.match {
+      background: var(--accent-light);
+      border-color: #b9d7cd;
+    }
+
+    .mini.partial {
+      background: var(--gold-light);
+      border-color: #ddca9c;
+    }
+
+    .mini.gap {
+      background: var(--red-light);
+      border-color: #dfb7ab;
+    }
+
+    .mini h4 {
+      margin: 0 0 10px;
+      font-size: 15px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      font-size: 14px;
+    }
+
+    .table th,
+    .table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .table th {
+      background: #eef1e8;
+    }
+
+    .table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .tag.match {
+      background: var(--accent-light);
+      color: var(--accent);
+    }
+
+    .tag.partial {
+      background: var(--gold-light);
+      color: var(--gold);
+    }
+
+    .tag.gap {
+      background: var(--red-light);
+      color: var(--red);
+    }
+
+    .callout {
+      background: var(--blue-light);
+      color: #223d5d;
+      border-left: 5px solid var(--blue);
+      border-radius: 8px 14px 14px 8px;
+      padding: 18px;
+      margin-top: 14px;
+    }
+
+    footer {
+      color: var(--muted);
+      text-align: center;
+      padding: 26px 24px 42px;
+      font-size: 13px;
+    }
+
+    code {
+      background: #eef1e8;
+      padding: 2px 6px;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="eyebrow">Portfolio Prototype · v0.2</div>
+      <h1>AI Job Fit Analyzer</h1>
+      <p class="subtitle">
+        Paste a job description and a resume summary to generate a structured fit analysis,
+        resume positioning suggestions, and interview preparation directions.
+      </p>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="card">
+        <h2>Analyze Job Fit</h2>
+        <p class="hint">
+          This v0.2 prototype uses rule-based analysis to validate the workflow.
+          Future versions can integrate LLM-generated analysis and Agent / Tool Use architecture.
+        </p>
+
+        <div class="grid">
+          <div>
+            <h3>Job Description</h3>
+            <textarea id="jdInput" placeholder="Paste the job description here..."></textarea>
+          </div>
+          <div>
+            <h3>Resume Summary</h3>
+            <textarea id="resumeInput" placeholder="Paste your resume summary here..."></textarea>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="secondary" onclick="loadSample()">Load Sample Data</button>
+          <button class="primary" onclick="analyzeFit()">Analyze Fit</button>
+          <button class="ghost" onclick="clearAll()">Clear</button>
+        </div>
+      </section>
+
+      <section id="report" class="report">
+        <div class="summary">
+          <div class="score-box">
+            <div class="score-label">Overall Fit</div>
+            <div id="score" class="score">--</div>
+            <div>/ 100</div>
+          </div>
+          <div class="card">
+            <h2>Overall Fit Summary</h2>
+            <p id="summaryText"></p>
+            <div id="pillRow" class="pill-row"></div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>1. Core Job Requirements</h2>
+          <p class="hint">The system extracts the role priorities based on common Sales Ops / Business Ops requirement patterns.</p>
+          <div id="requirements" class="pill-row"></div>
+        </div>
+
+        <div class="section">
+          <h2>2. Resume Match Analysis</h2>
+          <div class="columns">
+            <div class="mini match">
+              <h4>Strong Match</h4>
+              <ul id="matchList"></ul>
+            </div>
+            <div class="mini partial">
+              <h4>Partial Match</h4>
+              <ul id="partialList"></ul>
+            </div>
+            <div class="mini gap">
+              <h4>Gap</h4>
+              <ul id="gapList"></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="section">
+          <h2>3. Suggested Resume Positioning</h2>
+          <p>Reframe frontline experience into operational impact:</p>
+          <div class="callout" id="positioning"></div>
+
+          <h3>Suggested Resume Bullets</h3>
+          <ul id="bulletList"></ul>
+        </div>
+
+        <div class="section">
+          <h2>4. Interview Preparation</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Potential Question</th>
+                <th>Suggested Answer Direction</th>
+              </tr>
+            </thead>
+            <tbody id="interviewTable"></tbody>
+          </table>
+        </div>
+
+        <div class="section">
+          <h2>5. Recommended Learning Priorities</h2>
+          <ul id="learningList"></ul>
+        </div>
+
+        <div class="section">
+          <h2>6. Final Recommendation</h2>
+          <p id="finalRecommendation"></p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    AI Job Fit Analyzer · Rule-based v0.2 prototype · Simulated data only
+  </footer>
+
+  <script>
+    const sampleJD = `# Sample Job Description
+
+## Position
+Sales Operations Specialist
+
+## Job Responsibilities
+- Support sales team performance tracking and reporting
+- Analyze sales pipeline, conversion rate, and customer follow-up status
+- Maintain CRM data accuracy and improve sales operation workflows
+- Coordinate with sales, compliance, product, and internal operations teams
+- Prepare weekly and monthly sales performance reports
+- Identify process bottlenecks and propose optimization solutions
+- Assist in sales training materials, SOP documentation, and internal communication
+
+## Requirements
+- 2+ years of experience in sales support, sales operations, business operations, or financial services
+- Strong communication and cross-functional coordination skills
+- Experience with data analysis, reporting, or dashboard tools
+- Familiar with Excel or Google Sheets
+- Able to organize complex information into clear workflows or SOPs
+- Detail-oriented, proactive, and comfortable working with sales teams
+
+## Preferred Qualifications
+- Experience in banking, fintech, SaaS, or B2B sales environments
+- Experience with CRM systems
+- Ability to use AI tools to improve workflow efficiency
+- Basic understanding of sales funnel, conversion rate, and performance metrics`;
+
+    const sampleResume = `# Sample Resume Summary
+
+## Candidate Background
+The candidate has cross-functional experience in banking sales, loan telesales, cloud operations, technical documentation, and workflow optimization.
+
+## Banking / Loan Sales Experience
+- Worked as a loan telesales specialist in consumer banking
+- Handled customer objections, loan inquiries, document follow-up, and case progression
+- Improved team knowledge sharing by organizing common Q&A and case handling SOPs
+- Supported new team members by sharing high-conversion sales methods and structured call handling practices
+- Helped improve sales performance through objection handling, customer need clarification, and process standardization
+
+## Operations / Process Improvement Experience
+- Built SOPs, troubleshooting documents, and knowledge management structures
+- Organized fragmented information into reusable workflows
+- Identified process gaps and proposed improvements
+- Supported team efficiency through documentation, training, and workflow clarification
+
+## Technical Background
+- Worked in cloud operations and infrastructure support
+- Created technical documentation and troubleshooting SOPs
+- Participated in monitoring, incident response, and cost optimization projects
+- Familiar with structured problem-solving and system thinking
+
+## Target Roles
+- Sales Operations
+- Sales Support
+- Revenue Operations
+- Business Operations
+- Business Analyst`;
+
+    const requirementPatterns = [
+      {
+        label: "Sales Performance Tracking",
+        jd: ["performance", "tracking", "pipeline", "conversion", "report"],
+        resume: ["performance", "sales", "conversion", "case", "follow-up"]
+      },
+      {
+        label: "Sales Operations Workflow",
+        jd: ["workflow", "process", "operations", "bottleneck", "optimization"],
+        resume: ["workflow", "process", "sop", "standardization", "documentation"]
+      },
+      {
+        label: "CRM / Data Accuracy",
+        jd: ["crm", "data accuracy", "customer follow-up", "pipeline"],
+        resume: ["case progression", "follow-up", "customer", "documentation"]
+      },
+      {
+        label: "Cross-Functional Coordination",
+        jd: ["coordinate", "cross-functional", "compliance", "product", "internal"],
+        resume: ["team", "support", "communication", "cross-functional", "internal"]
+      },
+      {
+        label: "Reporting / Dashboard",
+        jd: ["report", "dashboard", "excel", "sheets", "analysis"],
+        resume: ["documentation", "analysis", "tracking", "structured"]
+      },
+      {
+        label: "SOP / Training Materials",
+        jd: ["sop", "training", "materials", "documentation"],
+        resume: ["sop", "training", "q&a", "knowledge", "new members"]
+      },
+      {
+        label: "Financial Services Context",
+        jd: ["banking", "fintech", "financial services"],
+        resume: ["banking", "loan", "consumer banking", "financial"]
+      },
+      {
+        label: "AI / Tool-Driven Efficiency",
+        jd: ["ai", "workflow efficiency", "automation"],
+        resume: ["ai", "workflow", "system", "technical"]
+      }
+    ];
+
+    function containsAny(text, keywords) {
+      const lower = text.toLowerCase();
+      return keywords.some(k => lower.includes(k.toLowerCase()));
+    }
+
+    function countMatches(text, keywords) {
+      const lower = text.toLowerCase();
+      return keywords.reduce((count, k) => count + (lower.includes(k.toLowerCase()) ? 1 : 0), 0);
+    }
+
+    function loadSample() {
+      document.getElementById("jdInput").value = sampleJD;
+      document.getElementById("resumeInput").value = sampleResume;
+    }
+
+    function clearAll() {
+      document.getElementById("jdInput").value = "";
+      document.getElementById("resumeInput").value = "";
+      document.getElementById("report").style.display = "none";
+    }
+
+    function makeList(id, items) {
+      const el = document.getElementById(id);
+      el.innerHTML = "";
+      items.forEach(item => {
+        const li = document.createElement("li");
+        li.innerHTML = item;
+        el.appendChild(li);
+      });
+    }
+
+    function makePills(id, items) {
+      const el = document.getElementById(id);
+      el.innerHTML = "";
+      items.forEach(item => {
+        const span = document.createElement("span");
+        span.className = "pill";
+        span.textContent = item;
+        el.appendChild(span);
+      });
+    }
+
+    function analyzeFit() {
+      const jd = document.getElementById("jdInput").value.trim();
+      const resume = document.getElementById("resumeInput").value.trim();
+
+      if (!jd || !resume) {
+        alert("Please paste both the job description and resume summary.");
+        return;
+      }
+
+      const detectedRequirements = requirementPatterns
+        .filter(r => containsAny(jd, r.jd))
+        .map(r => r.label);
+
+      const matches = [];
+      const partials = [];
+      const gaps = [];
+
+      requirementPatterns.forEach(r => {
+        const jdHit = containsAny(jd, r.jd);
+        if (!jdHit) return;
+
+        const resumeScore = countMatches(resume, r.resume);
+        if (resumeScore >= 2) {
+          matches.push(r.label);
+        } else if (resumeScore === 1) {
+          partials.push(r.label);
+        } else {
+          gaps.push(r.label);
+        }
+      });
+
+      const score = Math.min(92, Math.max(45, Math.round(
+        50 + matches.length * 6 + partials.length * 3 - gaps.length * 4
+      )));
+
+      document.getElementById("score").textContent = score;
+
+      let summaryText = "";
+      if (score >= 80) {
+        summaryText = "The candidate shows a strong fit for this role, especially in process improvement, sales workflow understanding, documentation, and financial services context.";
+      } else if (score >= 65) {
+        summaryText = "The candidate shows a moderate-to-strong fit. The core experience is relevant, but some requirements should be reframed more clearly in the resume.";
+      } else {
+        summaryText = "The candidate shows partial fit. The resume should better connect past experience to the role's core requirements before applying.";
+      }
+
+      document.getElementById("summaryText").textContent = summaryText;
+      makePills("pillRow", [
+        "Sales Ops",
+        "Resume Matching",
+        "Gap Analysis",
+        "Interview Prep"
+      ]);
+
+      makePills("requirements", detectedRequirements.length ? detectedRequirements : [
+        "Sales Operations",
+        "Reporting",
+        "Process Improvement",
+        "Cross-Functional Coordination"
+      ]);
+
+      makeList("matchList", matches.length ? matches.map(x => `${x}`) : [
+        "Sales process understanding",
+        "SOP and documentation experience",
+        "Financial services exposure"
+      ]);
+
+      makeList("partialList", partials.length ? partials.map(x => `${x}`) : [
+        "CRM / pipeline data experience needs clearer examples",
+        "Reporting experience should be reframed with metrics"
+      ]);
+
+      makeList("gapList", gaps.length ? gaps.map(x => `${x}`) : [
+        "Dashboard / BI tool experience",
+        "Formal sales funnel metrics",
+        "Direct CRM ownership"
+      ]);
+
+      document.getElementById("positioning").innerHTML =
+        `<strong>Recommended positioning:</strong> A frontline sales professional with process improvement, documentation, and technical workflow experience, transitioning into Sales Operations / Sales Support roles.`;
+
+      makeList("bulletList", [
+        "Standardized sales workflow knowledge by organizing recurring customer objections, document follow-up issues, and case-handling practices into reusable Q&A and SOP materials.",
+        "Supported team performance improvement by extracting high-conversion call handling methods from frontline experience and sharing structured practices with team members.",
+        "Translated customer objection patterns into actionable sales coaching materials, helping reps improve follow-up quality and clarify customer needs.",
+        "Combined banking sales experience with technical documentation and workflow optimization skills to improve team knowledge sharing and execution consistency."
+      ]);
+
+      const interviewRows = [
+        [
+          "How would your loan telesales experience help you succeed in Sales Operations?",
+          "Explain that frontline sales experience helps you identify real process bottlenecks, repeated customer objections, follow-up gaps, and opportunities for workflow improvement."
+        ],
+        [
+          "Can you describe a time when you improved a sales process?",
+          "Use a STAR story about organizing Q&A, documenting case handling practices, supporting new members, or standardizing repeated workflows."
+        ],
+        [
+          "How would you measure whether a Sales Ops improvement is effective?",
+          "Mention reduced repeated questions, faster ramp-up, improved follow-up completion, higher conversion rate, shorter handling time, or better data completeness."
+        ],
+        [
+          "What gaps do you still need to strengthen?",
+          "Be honest: CRM, dashboard, and formal sales metrics. Then connect your current portfolio projects to active learning and workflow design ability."
+        ]
+      ];
+
+      const tbody = document.getElementById("interviewTable");
+      tbody.innerHTML = "";
+      interviewRows.forEach(row => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${row[0]}</td><td>${row[1]}</td>`;
+        tbody.appendChild(tr);
+      });
+
+      makeList("learningList", [
+        "Sales metrics: pipeline, conversion rate, follow-up completion, win rate, average handling time.",
+        "CRM concepts: customer tracking, activity logging, pipeline status, data quality control.",
+        "Dashboard basics: Excel or Google Sheets sales performance summary and follow-up tracker.",
+        "AI workflow design: convert repeated sales processes into structured analysis and coaching workflows."
+      ]);
+
+      document.getElementById("finalRecommendation").innerHTML =
+        `The candidate should position herself as <strong>a frontline banking sales professional with process improvement, documentation, and technical workflow experience</strong>. The most persuasive angle is: <em>I understand sales from the frontline, and I can turn repeated sales problems into structured workflows, training materials, and operational improvements.</em>`;
+
+      document.getElementById("report").style.display = "block";
+      document.getElementById("report").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  </script>
+</body>
+</html>
