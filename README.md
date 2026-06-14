@@ -50,3 +50,10 @@ Analyze Job Requirements
 Compare Resume Fit
 ↓
 Generate Resume and Interview Suggestions
+---
+## Disclaimer
+
+This project is a portfolio prototype built with simulated job descriptions and resume summaries.  
+It does not contain private personal data, confidential company information, or proprietary hiring criteria.
+
+本專案為履歷作品原型，所有職缺與履歷內容皆為模擬資料，不包含個人隱私資料、公司機密資訊或專有招募標準。
