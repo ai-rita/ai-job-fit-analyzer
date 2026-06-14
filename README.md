@@ -15,6 +15,12 @@
 ### Interview Preparation
 ![Interview Preparation](screenshots/interview-prep.png)
 
+## Documentation
+
+- [Product Spec](docs/product-spec.md)
+- [Sample Job Description](sample-data/sample-jd.md)
+- [Sample Resume Summary](sample-data/sample-resume-summary.md)
+- [Sample Analysis Report](sample-output/job-fit-analysis-report.md)
 
 ## Project Overview
 
