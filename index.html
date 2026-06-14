@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Job Fit Analyzer</title>
+  <title>AI 職缺履歷匹配分析工具</title>
   <style>
     :root {
       --bg: #f5f6f1;
@@ -22,16 +22,14 @@
       --shadow: 0 12px 30px rgba(26, 42, 44, 0.08);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans TC", "Microsoft JhengHei", Arial, sans-serif;
       background: var(--bg);
       color: var(--ink);
-      line-height: 1.65;
+      line-height: 1.75;
     }
 
     header {
@@ -55,21 +53,19 @@
     }
 
     h1 {
-      font-size: clamp(32px, 5vw, 56px);
-      line-height: 1.05;
+      font-size: clamp(32px, 5vw, 54px);
+      line-height: 1.12;
       margin: 0 0 12px;
     }
 
     .subtitle {
       color: #d7ddd7;
-      max-width: 760px;
+      max-width: 820px;
       margin: 0;
       font-size: 17px;
     }
 
-    main {
-      padding: 32px 24px 64px;
-    }
+    main { padding: 32px 24px 64px; }
 
     .grid {
       display: grid;
@@ -79,9 +75,7 @@
     }
 
     @media (max-width: 880px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
+      .grid { grid-template-columns: 1fr; }
     }
 
     .card {
@@ -102,9 +96,7 @@
       font-size: 17px;
     }
 
-    p {
-      margin: 0 0 14px;
-    }
+    p { margin: 0 0 14px; }
 
     .hint {
       color: var(--muted);
@@ -120,7 +112,7 @@
       border-radius: 14px;
       padding: 16px;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.75;
       background: #fbfcf8;
       color: var(--ink);
       outline: none;
@@ -177,9 +169,7 @@
     }
 
     @media (max-width: 640px) {
-      .summary {
-        grid-template-columns: 1fr;
-      }
+      .summary { grid-template-columns: 1fr; }
     }
 
     .score-box {
@@ -239,9 +229,7 @@
     }
 
     @media (max-width: 880px) {
-      .columns {
-        grid-template-columns: 1fr;
-      }
+      .columns { grid-template-columns: 1fr; }
     }
 
     .mini {
@@ -276,9 +264,7 @@
       padding-left: 20px;
     }
 
-    li {
-      margin-bottom: 8px;
-    }
+    li { margin-bottom: 8px; }
 
     .table {
       width: 100%;
@@ -297,37 +283,9 @@
       vertical-align: top;
     }
 
-    .table th {
-      background: #eef1e8;
-    }
+    .table th { background: #eef1e8; }
 
-    .table tr:last-child td {
-      border-bottom: 0;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 4px 9px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .tag.match {
-      background: var(--accent-light);
-      color: var(--accent);
-    }
-
-    .tag.partial {
-      background: var(--gold-light);
-      color: var(--gold);
-    }
-
-    .tag.gap {
-      background: var(--red-light);
-      color: var(--red);
-    }
+    .table tr:last-child td { border-bottom: 0; }
 
     .callout {
       background: var(--blue-light);
@@ -356,10 +314,9 @@
   <header>
     <div class="wrap">
       <div class="eyebrow">Portfolio Prototype · v0.2</div>
-      <h1>AI Job Fit Analyzer</h1>
+      <h1>AI 職缺履歷匹配分析工具</h1>
       <p class="subtitle">
-        Paste a job description and a resume summary to generate a structured fit analysis,
-        resume positioning suggestions, and interview preparation directions.
+        貼上職缺 JD 與履歷摘要，系統會產生職缺需求拆解、履歷匹配分析、缺口提醒、履歷改寫建議與面試準備方向。
       </p>
     </div>
   </header>
@@ -367,84 +324,83 @@
   <main>
     <div class="wrap">
       <section class="card">
-        <h2>Analyze Job Fit</h2>
+        <h2>開始分析職缺匹配度</h2>
         <p class="hint">
-          This v0.2 prototype uses rule-based analysis to validate the workflow.
-          Future versions can integrate LLM-generated analysis and Agent / Tool Use architecture.
+          目前 v0.2 版本使用規則式分析驗證產品流程。未來版本可接上 LLM 生成更自然的分析內容，並延伸為 Agent / Tool Use 架構。
         </p>
 
         <div class="grid">
           <div>
-            <h3>Job Description</h3>
-            <textarea id="jdInput" placeholder="Paste the job description here..."></textarea>
+            <h3>職缺 JD</h3>
+            <textarea id="jdInput" placeholder="請貼上職缺內容，例如 104、LinkedIn、Cake 或公司官網 JD..."></textarea>
           </div>
           <div>
-            <h3>Resume Summary</h3>
-            <textarea id="resumeInput" placeholder="Paste your resume summary here..."></textarea>
+            <h3>履歷摘要</h3>
+            <textarea id="resumeInput" placeholder="請貼上你的履歷摘要、工作經驗重點或自我介紹..."></textarea>
           </div>
         </div>
 
         <div class="actions">
-          <button class="secondary" onclick="loadSample()">Load Sample Data</button>
-          <button class="primary" onclick="analyzeFit()">Analyze Fit</button>
-          <button class="ghost" onclick="clearAll()">Clear</button>
+          <button class="secondary" onclick="loadSample()">載入範例資料</button>
+          <button class="primary" onclick="analyzeFit()">開始分析</button>
+          <button class="ghost" onclick="clearAll()">清除內容</button>
         </div>
       </section>
 
       <section id="report" class="report">
         <div class="summary">
           <div class="score-box">
-            <div class="score-label">Overall Fit</div>
+            <div class="score-label">整體匹配度</div>
             <div id="score" class="score">--</div>
             <div>/ 100</div>
           </div>
           <div class="card">
-            <h2>Overall Fit Summary</h2>
+            <h2>整體評估摘要</h2>
             <p id="summaryText"></p>
             <div id="pillRow" class="pill-row"></div>
           </div>
         </div>
 
         <div class="section">
-          <h2>1. Core Job Requirements</h2>
-          <p class="hint">The system extracts the role priorities based on common Sales Ops / Business Ops requirement patterns.</p>
+          <h2>1. 職缺核心需求拆解</h2>
+          <p class="hint">系統會根據 Sales Ops / Business Ops 常見職能，判斷這份職缺可能重視的能力。</p>
           <div id="requirements" class="pill-row"></div>
         </div>
 
         <div class="section">
-          <h2>2. Resume Match Analysis</h2>
+          <h2>2. 履歷匹配分析</h2>
           <div class="columns">
             <div class="mini match">
-              <h4>Strong Match</h4>
+              <h4>高度匹配</h4>
               <ul id="matchList"></ul>
             </div>
             <div class="mini partial">
-              <h4>Partial Match</h4>
+              <h4>部分匹配</h4>
               <ul id="partialList"></ul>
             </div>
             <div class="mini gap">
-              <h4>Gap</h4>
+              <h4>需要補強</h4>
               <ul id="gapList"></ul>
             </div>
           </div>
         </div>
 
         <div class="section">
-          <h2>3. Suggested Resume Positioning</h2>
-          <p>Reframe frontline experience into operational impact:</p>
+          <h2>3. 履歷定位與改寫建議</h2>
+          <p>建議把第一線經驗重新包裝成營運改善與流程優化能力：</p>
           <div class="callout" id="positioning"></div>
 
-          <h3>Suggested Resume Bullets</h3>
+          <h3>建議履歷 bullet</h3>
           <ul id="bulletList"></ul>
         </div>
 
         <div class="section">
-          <h2>4. Interview Preparation</h2>
+          <h2>4. 面試準備方向</h2>
           <table class="table">
             <thead>
               <tr>
-                <th>Potential Question</th>
-                <th>Suggested Answer Direction</th>
+                <th>可能面試題</th>
+                <th>回答方向</th>
               </tr>
             </thead>
             <tbody id="interviewTable"></tbody>
@@ -452,12 +408,12 @@
         </div>
 
         <div class="section">
-          <h2>5. Recommended Learning Priorities</h2>
+          <h2>5. 建議補強項目</h2>
           <ul id="learningList"></ul>
         </div>
 
         <div class="section">
-          <h2>6. Final Recommendation</h2>
+          <h2>6. 最終定位建議</h2>
           <p id="finalRecommendation"></p>
         </div>
       </section>
@@ -465,63 +421,63 @@
   </main>
 
   <footer>
-    AI Job Fit Analyzer · Rule-based v0.2 prototype · Simulated data only
+    AI Job Fit Analyzer · v0.2 規則式互動原型 · 使用模擬資料
   </footer>
 
   <script>
-    const sampleJD = `# Sample Job Description
+    const sampleJD = `# 範例職缺 JD
 
-## Position
+## 職位名稱
 Sales Operations Specialist
 
-## Job Responsibilities
-- Support sales team performance tracking and reporting
-- Analyze sales pipeline, conversion rate, and customer follow-up status
-- Maintain CRM data accuracy and improve sales operation workflows
-- Coordinate with sales, compliance, product, and internal operations teams
-- Prepare weekly and monthly sales performance reports
-- Identify process bottlenecks and propose optimization solutions
-- Assist in sales training materials, SOP documentation, and internal communication
+## 工作內容
+- 協助業務團隊進行績效追蹤與報表整理
+- 分析業務 pipeline、轉換率與客戶追蹤狀態
+- 維護 CRM 資料正確性，優化銷售營運流程
+- 與業務、合規、產品與內部營運單位協作
+- 製作週報、月報與銷售績效分析
+- 找出流程瓶頸並提出改善建議
+- 協助建立業務訓練教材、SOP 文件與內部溝通資料
 
-## Requirements
-- 2+ years of experience in sales support, sales operations, business operations, or financial services
-- Strong communication and cross-functional coordination skills
-- Experience with data analysis, reporting, or dashboard tools
-- Familiar with Excel or Google Sheets
-- Able to organize complex information into clear workflows or SOPs
-- Detail-oriented, proactive, and comfortable working with sales teams
+## 條件要求
+- 2 年以上 sales support、sales operations、business operations 或金融服務經驗
+- 具備良好溝通與跨部門協作能力
+- 具備資料分析、報表整理或 dashboard 經驗
+- 熟悉 Excel 或 Google Sheets
+- 能將複雜資訊整理成清楚流程或 SOP
+- 細心、主動，能與業務團隊合作
 
-## Preferred Qualifications
-- Experience in banking, fintech, SaaS, or B2B sales environments
-- Experience with CRM systems
-- Ability to use AI tools to improve workflow efficiency
-- Basic understanding of sales funnel, conversion rate, and performance metrics`;
+## 加分條件
+- 具銀行、金融科技、SaaS 或 B2B 業務環境經驗
+- 具 CRM 系統使用或管理經驗
+- 能使用 AI 工具提升工作流程效率
+- 理解 sales funnel、conversion rate 與績效指標`;
 
-    const sampleResume = `# Sample Resume Summary
+    const sampleResume = `# 範例履歷摘要
 
-## Candidate Background
-The candidate has cross-functional experience in banking sales, loan telesales, cloud operations, technical documentation, and workflow optimization.
+## 候選人背景
+具備銀行信貸業務、雲端維運、技術文件與流程優化經驗，能結合第一線業務理解與系統化整理能力。
 
-## Banking / Loan Sales Experience
-- Worked as a loan telesales specialist in consumer banking
-- Handled customer objections, loan inquiries, document follow-up, and case progression
-- Improved team knowledge sharing by organizing common Q&A and case handling SOPs
-- Supported new team members by sharing high-conversion sales methods and structured call handling practices
-- Helped improve sales performance through objection handling, customer need clarification, and process standardization
+## 銀行 / 信貸業務經驗
+- 擔任消費金融信貸電銷專員
+- 處理客戶反對問題、貸款諮詢、補件追蹤與案件推進
+- 整理常見 Q&A 與案件處理 SOP，改善團隊知識分享
+- 支援新人上手，分享高轉換率話術與結構化應對方式
+- 透過反對問題處理、需求釐清與流程標準化協助提升業務表現
 
-## Operations / Process Improvement Experience
-- Built SOPs, troubleshooting documents, and knowledge management structures
-- Organized fragmented information into reusable workflows
-- Identified process gaps and proposed improvements
-- Supported team efficiency through documentation, training, and workflow clarification
+## 營運 / 流程改善經驗
+- 建立 SOP、troubleshooting 文件與知識管理架構
+- 將零散資訊整理成可重複使用的工作流程
+- 找出流程缺口並提出改善建議
+- 透過文件、訓練與流程釐清提升團隊效率
 
-## Technical Background
-- Worked in cloud operations and infrastructure support
-- Created technical documentation and troubleshooting SOPs
-- Participated in monitoring, incident response, and cost optimization projects
-- Familiar with structured problem-solving and system thinking
+## 技術背景
+- 曾任雲端維運與基礎架構支援工程師
+- 撰寫技術文件與 troubleshooting SOP
+- 參與監控、事件處理與成本優化專案
+- 熟悉結構化問題拆解與系統化思考
 
-## Target Roles
+## 目標職位
 - Sales Operations
 - Sales Support
 - Revenue Operations
@@ -530,44 +486,44 @@ The candidate has cross-functional experience in banking sales, loan telesales, 
 
     const requirementPatterns = [
       {
-        label: "Sales Performance Tracking",
-        jd: ["performance", "tracking", "pipeline", "conversion", "report"],
-        resume: ["performance", "sales", "conversion", "case", "follow-up"]
+        label: "業務績效追蹤",
+        jd: ["績效", "追蹤", "pipeline", "轉換率", "報表", "performance", "tracking", "conversion"],
+        resume: ["績效", "業務", "轉換率", "案件", "追蹤", "performance", "sales"]
       },
       {
-        label: "Sales Operations Workflow",
-        jd: ["workflow", "process", "operations", "bottleneck", "optimization"],
-        resume: ["workflow", "process", "sop", "standardization", "documentation"]
+        label: "銷售營運流程優化",
+        jd: ["流程", "營運", "瓶頸", "優化", "改善", "workflow", "process", "operations"],
+        resume: ["流程", "SOP", "標準化", "文件", "改善", "workflow", "process", "documentation"]
       },
       {
-        label: "CRM / Data Accuracy",
-        jd: ["crm", "data accuracy", "customer follow-up", "pipeline"],
-        resume: ["case progression", "follow-up", "customer", "documentation"]
+        label: "CRM / 資料正確性",
+        jd: ["CRM", "資料正確", "客戶追蹤", "pipeline", "data accuracy"],
+        resume: ["案件推進", "追蹤", "客戶", "文件", "follow-up", "customer"]
       },
       {
-        label: "Cross-Functional Coordination",
-        jd: ["coordinate", "cross-functional", "compliance", "product", "internal"],
-        resume: ["team", "support", "communication", "cross-functional", "internal"]
+        label: "跨部門協作",
+        jd: ["協作", "跨部門", "合規", "產品", "內部", "coordinate", "cross-functional"],
+        resume: ["團隊", "支援", "溝通", "協作", "內部", "team", "support"]
       },
       {
-        label: "Reporting / Dashboard",
-        jd: ["report", "dashboard", "excel", "sheets", "analysis"],
-        resume: ["documentation", "analysis", "tracking", "structured"]
+        label: "報表 / Dashboard",
+        jd: ["報表", "dashboard", "Excel", "Google Sheets", "分析", "report"],
+        resume: ["文件", "分析", "追蹤", "結構化", "analysis", "tracking"]
       },
       {
-        label: "SOP / Training Materials",
-        jd: ["sop", "training", "materials", "documentation"],
-        resume: ["sop", "training", "q&a", "knowledge", "new members"]
+        label: "SOP / 訓練教材",
+        jd: ["SOP", "訓練", "教材", "文件", "training", "documentation"],
+        resume: ["SOP", "訓練", "Q&A", "知識", "新人", "training", "knowledge"]
       },
       {
-        label: "Financial Services Context",
-        jd: ["banking", "fintech", "financial services"],
-        resume: ["banking", "loan", "consumer banking", "financial"]
+        label: "金融服務經驗",
+        jd: ["銀行", "金融", "fintech", "financial", "banking"],
+        resume: ["銀行", "信貸", "消費金融", "貸款", "financial", "loan"]
       },
       {
-        label: "AI / Tool-Driven Efficiency",
-        jd: ["ai", "workflow efficiency", "automation"],
-        resume: ["ai", "workflow", "system", "technical"]
+        label: "AI / 工具效率提升",
+        jd: ["AI", "工具", "效率", "automation", "workflow efficiency"],
+        resume: ["AI", "流程", "系統", "技術", "workflow", "system"]
       }
     ];
 
@@ -618,7 +574,7 @@ The candidate has cross-functional experience in banking sales, loan telesales, 
       const resume = document.getElementById("resumeInput").value.trim();
 
       if (!jd || !resume) {
-        alert("Please paste both the job description and resume summary.");
+        alert("請同時貼上職缺 JD 與履歷摘要。");
         return;
       }
 
@@ -652,71 +608,71 @@ The candidate has cross-functional experience in banking sales, loan telesales, 
 
       let summaryText = "";
       if (score >= 80) {
-        summaryText = "The candidate shows a strong fit for this role, especially in process improvement, sales workflow understanding, documentation, and financial services context.";
+        summaryText = "候選人與此職缺具高度匹配，尤其在銷售流程理解、SOP 文件化、金融服務經驗與流程改善能力上具有明顯優勢。";
       } else if (score >= 65) {
-        summaryText = "The candidate shows a moderate-to-strong fit. The core experience is relevant, but some requirements should be reframed more clearly in the resume.";
+        summaryText = "候選人與此職缺具中高程度匹配，核心經驗相關，但仍需要在履歷中更明確呈現報表、CRM、績效指標或跨部門協作案例。";
       } else {
-        summaryText = "The candidate shows partial fit. The resume should better connect past experience to the role's core requirements before applying.";
+        summaryText = "候選人與此職缺具部分匹配，建議先補強履歷中與職缺需求的連結，再進行投遞或面試準備。";
       }
 
       document.getElementById("summaryText").textContent = summaryText;
       makePills("pillRow", [
         "Sales Ops",
-        "Resume Matching",
-        "Gap Analysis",
-        "Interview Prep"
+        "履歷匹配",
+        "缺口分析",
+        "面試準備"
       ]);
 
       makePills("requirements", detectedRequirements.length ? detectedRequirements : [
-        "Sales Operations",
-        "Reporting",
-        "Process Improvement",
-        "Cross-Functional Coordination"
+        "銷售營運",
+        "報表分析",
+        "流程改善",
+        "跨部門協作"
       ]);
 
       makeList("matchList", matches.length ? matches.map(x => `${x}`) : [
-        "Sales process understanding",
-        "SOP and documentation experience",
-        "Financial services exposure"
+        "銷售流程理解",
+        "SOP 與文件化經驗",
+        "金融服務背景"
       ]);
 
       makeList("partialList", partials.length ? partials.map(x => `${x}`) : [
-        "CRM / pipeline data experience needs clearer examples",
-        "Reporting experience should be reframed with metrics"
+        "CRM / pipeline 資料經驗需要更明確",
+        "報表經驗可以補上具體指標或工具"
       ]);
 
       makeList("gapList", gaps.length ? gaps.map(x => `${x}`) : [
-        "Dashboard / BI tool experience",
-        "Formal sales funnel metrics",
-        "Direct CRM ownership"
+        "Dashboard / BI 工具經驗",
+        "正式 sales funnel 指標經驗",
+        "直接 CRM 管理經驗"
       ]);
 
       document.getElementById("positioning").innerHTML =
-        `<strong>Recommended positioning:</strong> A frontline sales professional with process improvement, documentation, and technical workflow experience, transitioning into Sales Operations / Sales Support roles.`;
+        `<strong>建議定位：</strong>具第一線銀行業務經驗、流程改善能力、文件化能力與技術背景的候選人，正轉向 Sales Operations / Sales Support 職位。`;
 
       makeList("bulletList", [
-        "Standardized sales workflow knowledge by organizing recurring customer objections, document follow-up issues, and case-handling practices into reusable Q&A and SOP materials.",
-        "Supported team performance improvement by extracting high-conversion call handling methods from frontline experience and sharing structured practices with team members.",
-        "Translated customer objection patterns into actionable sales coaching materials, helping reps improve follow-up quality and clarify customer needs.",
-        "Combined banking sales experience with technical documentation and workflow optimization skills to improve team knowledge sharing and execution consistency."
+        "將信貸電銷中重複出現的客戶反對、補件問題與案件處理邏輯整理成 Q&A 與 SOP 文件，提升團隊知識共享與處理一致性。",
+        "從第一線業務經驗中萃取高轉換率應對方式，分享結構化話術與追問流程，支援團隊成員提升客戶跟進品質。",
+        "將客戶反對問題轉化為可訓練的 coaching 材料，協助業務釐清客戶需求、改善追問品質並降低重複溝通成本。",
+        "結合銀行銷售經驗、技術文件能力與流程優化思維，將零散工作經驗整理成可複製、可追蹤、可改善的營運流程。"
       ]);
 
       const interviewRows = [
         [
-          "How would your loan telesales experience help you succeed in Sales Operations?",
-          "Explain that frontline sales experience helps you identify real process bottlenecks, repeated customer objections, follow-up gaps, and opportunities for workflow improvement."
+          "你的信貸電銷經驗如何幫助你勝任 Sales Operations？",
+          "說明第一線業務經驗讓你能看見真實流程瓶頸、客戶反對模式、追蹤缺口與團隊重複問題，並強調你擅長將這些問題整理成 SOP、訓練材料與流程改善建議。"
         ],
         [
-          "Can you describe a time when you improved a sales process?",
-          "Use a STAR story about organizing Q&A, documenting case handling practices, supporting new members, or standardizing repeated workflows."
+          "請分享一次你改善銷售流程的經驗。",
+          "用 STAR 結構回答：情境是新人或團隊反覆遇到相同問題；任務是提升處理效率；行動是整理 Q&A、文件化案件處理邏輯；結果是降低重複詢問、提升新人上手速度或支援團隊績效。"
         ],
         [
-          "How would you measure whether a Sales Ops improvement is effective?",
-          "Mention reduced repeated questions, faster ramp-up, improved follow-up completion, higher conversion rate, shorter handling time, or better data completeness."
+          "你會如何衡量一個 Sales Ops 改善是否有效？",
+          "可以提到重複問題減少、新人上手時間縮短、追蹤完成率提升、轉換率改善、案件處理時間縮短、CRM 資料完整度提升等指標。"
         ],
         [
-          "What gaps do you still need to strengthen?",
-          "Be honest: CRM, dashboard, and formal sales metrics. Then connect your current portfolio projects to active learning and workflow design ability."
+          "你目前還需要補強哪些能力？",
+          "誠實說明想加強 CRM、dashboard 與正式 sales metrics 經驗，同時補充自己正在透過 AI workflow 作品練習將銷售流程轉為可分析、可檢核、可改善的系統。"
         ]
       ];
 
@@ -729,14 +685,14 @@ The candidate has cross-functional experience in banking sales, loan telesales, 
       });
 
       makeList("learningList", [
-        "Sales metrics: pipeline, conversion rate, follow-up completion, win rate, average handling time.",
-        "CRM concepts: customer tracking, activity logging, pipeline status, data quality control.",
-        "Dashboard basics: Excel or Google Sheets sales performance summary and follow-up tracker.",
-        "AI workflow design: convert repeated sales processes into structured analysis and coaching workflows."
+        "Sales metrics：pipeline、conversion rate、follow-up completion、win rate、average handling time。",
+        "CRM concepts：客戶追蹤、活動紀錄、pipeline 狀態、資料品質控管。",
+        "Dashboard basics：使用 Excel 或 Google Sheets 製作銷售績效表、轉換率摘要與追蹤狀態看板。",
+        "AI workflow design：持續練習將重複性的銷售流程轉成結構化分析與 coaching workflow。"
       ]);
 
       document.getElementById("finalRecommendation").innerHTML =
-        `The candidate should position herself as <strong>a frontline banking sales professional with process improvement, documentation, and technical workflow experience</strong>. The most persuasive angle is: <em>I understand sales from the frontline, and I can turn repeated sales problems into structured workflows, training materials, and operational improvements.</em>`;
+        `建議將自己定位為：<strong>具第一線銀行業務經驗、流程改善能力、文件化能力與技術工作流背景的 Sales Operations 轉職候選人</strong>。最有說服力的主軸不是「我想離開業務」，而是：<em>我理解第一線銷售現場，也能把重複問題轉化為流程、訓練材料與營運改善方案。</em>`;
 
       document.getElementById("report").style.display = "block";
       document.getElementById("report").scrollIntoView({ behavior: "smooth", block: "start" });
